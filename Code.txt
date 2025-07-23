@@ -1,0 +1,297 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: SplashPage(),
+      theme: ThemeData(primarySwatch: Colors.purple),
+    ),
+  );
+}
+
+/// Splash Screen
+class SplashPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          SizedBox.expand(
+            child: Image.network(
+              'https://tse1.mm.bing.net/th/id/OIP.1dqVYFZJxbj6P3eDy9rPDQHaJS?rs=1&pid=ImgDetMain&o=7&rm=3',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned(
+            bottom: 40,
+            left: 100,
+            right: 100,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => LoginPage()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.purple,
+                padding: EdgeInsets.symmetric(vertical: 12),
+              ),
+              child: Text(
+                "Let's Start",
+                style: TextStyle(fontSize: 16, color: Colors.white),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Login
+class LoginPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(centerTitle: true, title: Text('Welcome Back')),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              Text(
+                'Enter your credentials to login',
+                style: TextStyle(fontSize: 14, color: Colors.grey),
+              ),
+              SizedBox(height: 20),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Username',
+                  filled: true,
+                  fillColor: Colors.purple[50],
+                ),
+              ),
+              SizedBox(height: 15),
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  filled: true,
+                  fillColor: Colors.purple[50],
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => MainPage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
+                child: Center(
+                  child: Text('Login', style: TextStyle(color: Colors.white)),
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Forgot password?',
+                  style: TextStyle(color: Colors.purple),
+                ),
+              ),
+              SizedBox(height: 30),
+              Text(
+                "Don't have an account?",
+                style: TextStyle(color: Colors.grey),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => SignUpPage()),
+                  );
+                },
+                child: Text("Sign Up", style: TextStyle(color: Colors.purple)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// SignUp
+class SignUpPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Sign Up'), centerTitle: true),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text('Create Account', style: TextStyle(color: Colors.grey)),
+              SizedBox(height: 15),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Username',
+                  filled: true,
+                  fillColor: Colors.purple[50],
+                ),
+              ),
+              SizedBox(height: 15),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  filled: true,
+                  fillColor: Colors.purple[50],
+                ),
+              ),
+              SizedBox(height: 15),
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  filled: true,
+                  fillColor: Colors.purple[50],
+                ),
+              ),
+              SizedBox(height: 15),
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Confirm Password',
+                  filled: true,
+                  fillColor: Colors.purple[50],
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => MainPage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
+                child: Text('Sign Up', style: TextStyle(color: Colors.white)),
+              ),
+              SizedBox(height: 20),
+              Text('or'),
+              SizedBox(height: 10),
+              OutlinedButton(
+                onPressed: () {},
+                child: Text(
+                  'Sign in with Google',
+                  style: TextStyle(color: Colors.purple),
+                ),
+              ),
+              SizedBox(height: 30),
+              Text(
+                'Already have an account?',
+                style: TextStyle(color: Colors.grey),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => LoginPage()),
+                  );
+                },
+                child: Text("Login", style: TextStyle(color: Colors.purple)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MainPage extends StatefulWidget {
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  int _index = 0;
+
+  final List<Widget> _pages = [HomePage(), ProductsPage()];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(['Home', 'Products'][_index]),
+        centerTitle: true,
+      ),
+      body: _pages[_index],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _index,
+        onTap: (i) => setState(() => _index = i),
+        selectedItemColor: Colors.purple,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_bag),
+            label: 'Products',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Home Page
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        'Welcome to Home Page',
+        style: TextStyle(fontSize: 22, color: Colors.purple),
+      ),
+    );
+  }
+}
+
+/// Products Page
+class ProductsPage extends StatelessWidget {
+  final List<String> imageUrls = [
+    'https://absolutenewyork.com/cdn/shop/files/niacinamide_skincare_web_image_1f265486-69b0-41ab-a969-9d9607593658_800x.png?v=1734984943',
+    'https://media-photos.depop.com/b1/17351106/1446631819_50e2100087354f44b404a21d9f989903/P0.jpg',
+    'https://mir-s3-cdn-cf.behance.net/project_modules/1400/6e61bd161264581.63c2201917e55.png',
+    'https://images.squarespace-cdn.com/content/v1/647f8348d8827b4b214aa98b/aed51241-17b8-4023-900a-54c857844bd0/Herbivore_Botanicals_Evergreen_05-22_600.jpg',
+    'https://tse2.mm.bing.net/th/id/OIP.ax2hIv9gNa_p6y-AVdFaBQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: imageUrls.length,
+      itemBuilder: (ctx, i) {
+        return Card(
+          margin: EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Image.network(imageUrls[i], fit: BoxFit.cover),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Product ${i + 1}',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
